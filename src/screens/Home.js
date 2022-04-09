@@ -14,14 +14,13 @@ const Container = styled.div`
 
 const Button = styled.button`
   width: ${(props) => (props.half ? "50%" : "100%")};
-  margin: 0px 5px;
 `;
 
 function Home() {
   return (
     <Container>
       <Title>Home</Title>
-      <Button onClick={() => isLoggedInVar(false)}>Log out now!</Button>
+      <Button onClick={() => isLoggedInVar(false)}>Logout!</Button>
       <Mode />
     </Container>
   );

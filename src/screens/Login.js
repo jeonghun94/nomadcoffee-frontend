@@ -14,14 +14,14 @@ const Container = styled.div`
 `;
 
 const Button = styled.button`
-  width: ${(props) => (props.half ? "50%" : "100%")};
+  width: 100%;
 `;
 
 function Login() {
   return (
     <Container>
       <Title>Login</Title>
-      <Button onClick={() => isLoggedInVar(true)}>Login Now!</Button>
+      <Button onClick={() => isLoggedInVar(true)}>Login!</Button>
       <Mode />
     </Container>
   );
