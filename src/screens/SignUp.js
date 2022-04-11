@@ -9,23 +9,26 @@ import Input from "../components/auth/Input";
 import Form from "../components/auth/Form";
 import routes from "../routes";
 
-const Login = () => {
+const SignUp = () => {
   return (
     <Layout>
-      <PageTitle title="Login | Nomad-Coffee" />
+      <PageTitle title="Sign-Up | Nomad-Coffee" />
       <Form>
-        <Title title="Welcome To" subTitle="Nomad-Coffee" />
+        <Title title="Sign Up" subTitle="Nomad-Coffee" />
+        <Input placeholder="Frist Name" />
+        <Input placeholder="Last Name" />
+        <Input placeholder="Email" />
         <Input placeholder="Username" />
         <Input placeholder="Password" />
-        <Button onClick={() => isLoggedInVar(true)}>Login</Button>
+        <Button>Sign Up</Button>
         <Separator />
         <Bottom
-          text="Don't have an account?"
-          linkText="Sign up"
-          link={routes.signUp}
+          text="Do you have an account?"
+          linkText="Login"
+          link={routes.home}
         />
       </Form>
     </Layout>
   );
 };
-export default Login;
+export default SignUp;
