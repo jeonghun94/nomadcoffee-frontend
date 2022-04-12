@@ -1,4 +1,3 @@
-import { isLoggedInVar } from "../apollo";
 import Bottom from "../components/auth/Bottom";
 import Layout from "../components/auth/Layout";
 import Separator from "../components/auth/Sperator";
@@ -9,53 +8,107 @@ import Input from "../components/auth/Input";
 import Form from "../components/auth/Form";
 import routes from "../routes";
 import { useForm } from "react-hook-form";
+import { gql, useMutation } from "@apollo/client";
+import { useHistory } from "react-router-dom";
+
+const CREATE_ACCOUNT_MUTATION = gql`
+  mutation createAccount(
+    $name: String!
+    $location: String!
+    $username: String!
+    $email: String!
+    $password: String!
+  ) {
+    createAccount(
+      name: $name
+      location: $location
+      username: $username
+      email: $email
+      password: $password
+    ) {
+      ok
+      error
+    }
+  }
+`;
 
 const SignUp = () => {
+  const history = useHistory();
+  const onCompleted = (data) => {
+    const {
+      createAccount: { ok, error },
+    } = data;
+    if (!ok) {
+      return setError("result", {
+        message: error,
+      });
+    }
+    const { username, password } = getValues();
+
+    history.push(routes.home, {
+      username,
+      password,
+      message: "Account created",
+    });
+  };
+  const [createAccount, { loading }] = useMutation(CREATE_ACCOUNT_MUTATION, {
+    onCompleted,
+  });
+
   const {
     register,
     handleSubmit,
     clearErrors,
+    setError,
     formState: { errors },
+    getValues,
   } = useForm({ mode: "onChange" });
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+  const onSubmitValid = (data) => {
+    if (loading) {
+      return;
+    }
 
-  const onError = (err) => {
-    console.log(err);
+    console.log(data);
+    createAccount({
+      variables: {
+        ...data,
+      },
+    });
+  };
+  const clearSignError = (item) => {
+    clearErrors("result");
+    clearErrors(item);
   };
   return (
     <Layout>
       <PageTitle title="Sign-Up | Nomad-Coffee" />
-      <Form onSubmit={handleSubmit(onSubmit, onError)}>
+      <Form onSubmit={handleSubmit(onSubmitValid)}>
         <Title title="Sign Up" subTitle="Nomad-Coffee" />
         <Input
-          {...register("firstName", {
+          {...register("name", {
             required: {
               value: true,
-              message: "firstName is required",
-            },
-            maxLength: {
-              value: 3,
-              message: "firstName is 3 characters short",
+              message: "name is required",
             },
           })}
-          onChange={() => clearErrors("firstName")}
-          placeholder="Frist Name"
+          type="text"
+          onChange={() => clearSignError("name")}
+          placeholder="Name"
         />
-        {errors.firstName?.message}
+        {errors.name?.message}
         <Input
-          {...register("lastName", {
+          {...register("location", {
             required: {
               value: true,
-              message: "lastName is required",
+              message: "location is required",
             },
           })}
-          onChange={() => clearErrors("lastName")}
-          placeholder="Last Name"
+          type="text"
+          onChange={() => clearSignError("location")}
+          placeholder="Location"
         />
-        {errors.lastName?.message}
+        {errors.location?.message}
         <Input
           {...register("email", {
             required: {
@@ -63,7 +116,8 @@ const SignUp = () => {
               message: "email is required",
             },
           })}
-          onChange={() => clearErrors("email")}
+          type="text"
+          onChange={() => clearSignError("email")}
           placeholder="Email"
         />
         {errors.email?.message}
@@ -74,7 +128,8 @@ const SignUp = () => {
               message: "username is required",
             },
           })}
-          onChange={() => clearErrors("username")}
+          type="text"
+          onChange={() => clearSignError("username")}
           placeholder="Username"
         />
         {errors.username?.message}
@@ -84,16 +139,16 @@ const SignUp = () => {
               value: true,
               message: "password is required",
             },
-            minLength: {
-              value: 6,
-              message: "password is 6 characters long",
-            },
           })}
-          onChange={() => clearErrors("password")}
+          type="password"
+          onChange={() => clearSignError("password")}
           placeholder="Password"
         />
         {errors.password?.message}
-        <Button onClick={() => isLoggedInVar(true)}>Sign Up</Button>
+        <Button type="submit" value={loading ? "Loading..." : "Sign up"}>
+          Sign Up
+        </Button>
+        {errors.result?.message}
         <Separator />
         <Bottom
           text="Do you have an account?"
