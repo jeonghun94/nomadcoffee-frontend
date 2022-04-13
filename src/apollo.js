@@ -19,4 +19,7 @@ export const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
   //   url: "https://instaclone-backend-jh.herokuapp.com/graphql",
   cache: new InMemoryCache(),
+  headers: {
+    token: localStorage.getItem(TOKEN),
+  },
 });

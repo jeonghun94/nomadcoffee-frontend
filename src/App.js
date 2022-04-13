@@ -31,7 +31,7 @@ function App() {
               <Route path={routes.add}>
                 <Add />
               </Route>
-              <Route path={routes.shop}>
+              <Route path={`${routes.shop}/:id`}>
                 <Shop />
               </Route>
               <Route>
