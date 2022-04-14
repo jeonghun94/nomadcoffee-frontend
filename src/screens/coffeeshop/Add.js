@@ -34,9 +34,9 @@ const Add = () => {
   const {
     register,
     handleSubmit,
-    clearErrors,
-    setError,
-    getValues,
+    // clearErrors,
+    // setError,
+    // getValues,
     formState: { errors },
   } = useForm({ mode: "onChange" });
 
@@ -53,8 +53,6 @@ const Add = () => {
     });
     alert("New Coffee shop created!");
     history.push(routes.home);
-
-    console.log(error);
   };
 
   return (

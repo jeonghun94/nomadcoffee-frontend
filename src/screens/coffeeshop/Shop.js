@@ -9,7 +9,6 @@ import Title from "../../components/auth/Title";
 import PageTitle from "../../components/PateTitle";
 import { useHistory } from "react-router-dom";
 import routes from "../../routes";
-import { useLocation } from "react-router-dom";
 
 const SEE_COFFEE_SHOP_QUERY = gql`
   query seeCoffeeShop($id: Int!) {
@@ -34,7 +33,6 @@ const DELETE_COFFEE_SHOP_MUTATION = gql`
 const Shop = () => {
   const { id } = useParams();
   const history = useHistory();
-  const location = useLocation();
   const { loading, error, data } = useQuery(SEE_COFFEE_SHOP_QUERY, {
     variables: {
       id: +id,
@@ -44,9 +42,9 @@ const Shop = () => {
   const {
     register,
     handleSubmit,
-    clearErrors,
-    setError,
-    getValues,
+    // clearErrors,
+    // setError,
+    // getValues,
     formState: { errors },
   } = useForm({ mode: "onChange" });
 
@@ -56,7 +54,7 @@ const Shop = () => {
 
   const [
     deleteCoffeeShop,
-    { loading: deleteLoading, error: deleteError, data: deleteData },
+    // { loading: deleteLoading, error: deleteError, data: deleteData },
   ] = useMutation(DELETE_COFFEE_SHOP_MUTATION);
 
   const deleteCoffeeShopExecute = () => {
