@@ -131,7 +131,6 @@ const Home = () => {
     },
   });
   const dd = user?.seeProfile;
-  console.log(dd);
 
   useEffect(() => {
     refetch();
@@ -170,8 +169,14 @@ const Home = () => {
           </Link>
         </div>
         <div>
-          {/* <Button onClick={userLogout}>Logout</Button> */}
-          <img src={user?.seeProfile?.avatarURL} />
+          <Button
+            style={{ backgroundColor: "transparent" }}
+            onClick={userLogout}
+          >
+            Logout
+          </Button>
+          {/* 아바타 추가되어야 할곳 */}
+          {/* <img src={user?.seeProfile?.avatarURL} /> */}
         </div>
       </Header>
       <PageTitle title="Home | Nomad-Coffee" />

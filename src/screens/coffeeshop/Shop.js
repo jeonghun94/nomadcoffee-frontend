@@ -17,6 +17,32 @@ const SEE_COFFEE_SHOP_QUERY = gql`
       name
       latitude
       longitude
+      categories {
+        name
+      }
+    }
+  }
+`;
+
+const EDIT_COFFEE_SHOP_MUTATION = gql`
+  mutation editCoffeeShop(
+    $id: Int!
+    $name: String
+    $latitude: String
+    $longitude: String
+    $photoUrls: [String]
+    $categories: [String]
+  ) {
+    editCoffeeShop(
+      id: $id
+      name: $name
+      latitude: $latitude
+      longitude: $longitude
+      photoUrls: $photoUrls
+      categories: $categories
+    ) {
+      ok
+      error
     }
   }
 `;
@@ -44,20 +70,37 @@ const Shop = () => {
     handleSubmit,
     // clearErrors,
     // setError,
-    // getValues,
-    formState: { errors },
+    getValues,
+    formState: { errors, isValid },
   } = useForm({ mode: "onChange" });
-
-  const onSubmitValid = (data) => {
-    console.log(data);
-  };
 
   const [
     deleteCoffeeShop,
     // { loading: deleteLoading, error: deleteError, data: deleteData },
   ] = useMutation(DELETE_COFFEE_SHOP_MUTATION);
 
-  const deleteCoffeeShopExecute = () => {
+  const [editCoffeeShop, { data: editData }] = useMutation(
+    EDIT_COFFEE_SHOP_MUTATION
+  );
+
+  const editCoffeeShopHandler = () => {
+    const variable = getValues();
+    editCoffeeShop({
+      variables: {
+        id: +id,
+        ...variable,
+      },
+    });
+    alert("수정되었습니다.");
+    history.push(routes.home);
+  };
+
+  const onSubmitValid = (data) => {
+    console.log(isValid);
+    editCoffeeShopHandler();
+  };
+
+  const deleteCoffeeShopHandler = () => {
     if (window.confirm("Are you sure you want to delete this coffee shop?")) {
       deleteCoffeeShop({
         variables: {
@@ -95,7 +138,7 @@ const Shop = () => {
           {...register("latitude", {
             required: { value: true, message: "latitude is required" },
           })}
-          value={data?.seeCoffeeShop?.latitude}
+          // value={data?.seeCoffeeShop?.latitude}
           type="text"
           placeholder="Latitude"
         />
@@ -104,37 +147,43 @@ const Shop = () => {
           {...register("longitude", {
             required: { value: true, message: "longitude is required" },
           })}
-          value={data?.seeCoffeeShop?.longitude}
+          // value={data?.seeCoffeeShop?.longitude}
           type="text"
           placeholder="Longitued"
         />
         {errors.longitude?.message}
-        <Input
+        {/* <Input
           {...register("photoUrls", {
             required: {
               value: true,
               message: "photoUrls is required",
             },
           })}
+          value={data?.seeCoffeeShop?.photoUrls}
           type="text"
           placeholder="photoUrls"
-        />
-        {errors.photos?.message}
+        /> */}
+        {/* {errors.photos?.message}
         <Input
           {...register("categories", {
             required: {
               value: true,
               message: "categories is required",
             },
+            readyOnly: {
+              value: true,
+              message: "categories is required",
+            },
           })}
+          value={data?.seeCoffeeShop?.categories[0].name}
           type="text"
           placeholder="Categories"
         />
-        {errors.categories?.message}
-        <Button>Update CoffeeShop</Button>
+        {errors.categories?.message} */}
+        <Button type="submit">Update CoffeeShop</Button>
         <Button
           type="button"
-          onClick={deleteCoffeeShopExecute}
+          onClick={deleteCoffeeShopHandler}
           style={{ backgroundColor: "tomato" }}
         >
           Delete CoffeeShop
