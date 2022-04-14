@@ -46,8 +46,6 @@ const Add = () => {
 
   const history = useHistory();
   const onSubmitValid = (data) => {
-    console.log(data);
-
     createCoffeeshop({
       variables: {
         ...data,
@@ -55,7 +53,6 @@ const Add = () => {
     });
     alert("New Coffee shop created!");
     history.push(routes.home);
-    window.location.reload();
 
     console.log(error);
   };

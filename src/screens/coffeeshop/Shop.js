@@ -58,6 +58,7 @@ const Shop = () => {
     deleteCoffeeShop,
     { loading: deleteLoading, error: deleteError, data: deleteData },
   ] = useMutation(DELETE_COFFEE_SHOP_MUTATION);
+
   const deleteCoffeeShopExecute = () => {
     if (window.confirm("Are you sure you want to delete this coffee shop?")) {
       deleteCoffeeShop({
@@ -67,7 +68,6 @@ const Shop = () => {
       });
       alert("삭제 되었습니다");
       history.push(routes.home);
-      window.location.reload();
     } else {
       alert("취소 되었습니다.");
     }

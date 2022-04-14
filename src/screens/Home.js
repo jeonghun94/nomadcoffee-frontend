@@ -7,12 +7,10 @@ import { gql, useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
 import routes from "../routes";
 import { useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 
 const SEE_COFFEE_SHOPS_QUERY = gql`
-  query {
-    seeCoffeeShops(page: 1) {
+  query seeCoffeeShops($page: Int!) {
+    seeCoffeeShops(page: $page) {
       id
       name
       latitude
@@ -32,12 +30,17 @@ const SEE_COFFEE_SHOPS_QUERY = gql`
   }
 `;
 
-const Home = ({ match }) => {
-  const { loading, error, data } = useQuery(SEE_COFFEE_SHOPS_QUERY);
+const Home = () => {
+  const { loading, error, data, refetch } = useQuery(SEE_COFFEE_SHOPS_QUERY, {
+    variables: {
+      page: 1,
+    },
+  });
 
-  const location = useLocation();
-  console.log(match);
-  useEffect(() => {}, [location.pathname]);
+  useEffect(() => {
+    refetch();
+    console.log("새로 불러옴");
+  }, []);
 
   if (error) return `Error! ${error.message}`;
 
