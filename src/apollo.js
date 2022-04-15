@@ -16,7 +16,10 @@ export const userLogout = () => {
 
 export const darkModeVar = makeVar(false);
 export const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql",
+  uri:
+    process.env.NODE_ENV === "production"
+      ? "https://instaclone-backend-jh.herokuapp.com/graphql"
+      : "http://localhost:4000/graphql",
   //   url: "https://instaclone-backend-jh.herokuapp.com/graphql",
   cache: new InMemoryCache(),
   headers: {
