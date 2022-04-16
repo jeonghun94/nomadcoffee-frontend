@@ -70,6 +70,7 @@ const SignUp = () => {
     }
 
     console.log(data);
+    console.log(loading);
     createAccount({
       variables: {
         ...data,

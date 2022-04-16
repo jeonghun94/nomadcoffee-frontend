@@ -114,6 +114,18 @@ const CoffeeShopAddButton = styled.div`
   }
 `;
 
+const NoCoffeeShop = styled.div`
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  color: #282c34;
+  gap: 20px;
+  font-size: 1.5rem;
+  text-align: center;
+`;
+
 const Home = () => {
   const { loading, error, data, refetch } = useQuery(SEE_COFFEE_SHOPS_QUERY, {
     variables: {
@@ -181,6 +193,12 @@ const Home = () => {
       </Header>
       <PageTitle title="Home | Nomad-Coffee" />
       <CoffeeShopContainer>
+        {data?.seeCoffeeShops.length === 0 ? (
+          <NoCoffeeShop>
+            <h1>There is no registered cafe information.</h1>
+            <h2>Please register by clicking the button below!</h2>
+          </NoCoffeeShop>
+        ) : null}
         {data?.seeCoffeeShops.map((coffeeShop) => (
           <CoffeeShop>
             <CoffeeShopImage />
