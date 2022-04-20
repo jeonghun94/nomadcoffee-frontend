@@ -4,7 +4,7 @@ import { userLogout } from "../apollo";
 import { gql, useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
 import routes from "../routes";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const SEE_COFFEE_SHOPS_QUERY = gql`
@@ -135,18 +135,24 @@ const Home = () => {
 
   const {
     loading: userLoading,
-    error: userError,
-    data: user,
+    // error: userError,
+    data: userData,
   } = useQuery(SEE_PROFILE_QUERY, {
     variables: {
       token: localStorage.getItem("token"),
     },
   });
-  const dd = user?.seeProfile;
+
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    if (!userLoading) {
+      setUser(userData.seeProfile);
+    }
+  }, [userData, userLoading]);
 
   useEffect(() => {
     refetch();
-  }, []);
+  }, [refetch]);
 
   if (error) return `Error! ${error.message}`;
 
@@ -188,7 +194,7 @@ const Home = () => {
             Logout
           </Button>
           {/* 아바타 추가되어야 할곳 */}
-          {/* <img src={user?.seeProfile?.avatarURL} /> */}
+          <img alt="avatarURL" src={user?.avatarURL} />
         </div>
       </Header>
       <PageTitle title="Home | Nomad-Coffee" />

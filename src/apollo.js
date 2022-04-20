@@ -20,7 +20,7 @@ export const client = new ApolloClient({
     process.env.NODE_ENV === "production"
       ? "https://instaclone-backend-jh.herokuapp.com/graphql"
       : "http://localhost:4000/graphql",
-  //   url: "https://instaclone-backend-jh.herokuapp.com/graphql",
+  // url: "https://instaclone-backend-jh.herokuapp.com/graphql",
   cache: new InMemoryCache(),
   headers: {
     token: localStorage.getItem(TOKEN),

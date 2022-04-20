@@ -43,6 +43,7 @@ const Add = () => {
   const [createCoffeeshop, { loading, error, data }] = useMutation(
     CREATE_COFFEE_SHOP_MUTATION
   );
+  console.log(loading, error, data);
 
   const history = useHistory();
   const onSubmitValid = (data) => {

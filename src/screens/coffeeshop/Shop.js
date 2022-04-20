@@ -82,7 +82,7 @@ const Shop = () => {
   const [editCoffeeShop, { data: editData }] = useMutation(
     EDIT_COFFEE_SHOP_MUTATION
   );
-
+  console.log(editData);
   const editCoffeeShopHandler = () => {
     const variable = getValues();
     editCoffeeShop({
