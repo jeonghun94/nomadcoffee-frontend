@@ -53,6 +53,8 @@ const Header = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: 0px 130px;
+  position: sticky;
+  top: 0;
 `;
 
 const Title = styled.a`
