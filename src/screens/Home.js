@@ -101,7 +101,7 @@ const CoffeeShopInfo = styled.div`
 
 const CoffeeShopAddButton = styled.div`
   position: absolute;
-  bottom: 80px;
+  bottom: 50px;
   right: 80px;
   width: 50px;
   height: 50px;
@@ -113,6 +113,7 @@ const CoffeeShopAddButton = styled.div`
   justify-content: center;
   align-items: center;
   a {
+    margin-top: 5px;
     color: white;
   }
 `;
@@ -232,8 +233,32 @@ const Home = () => {
                   <h3>{coffeeShop.longitude}</h3>
                   <h6>{coffeeShop.photos.url}</h6>
                 </div>
-                <div>
-                  <h6>{coffeeShop.user?.name}</h6>
+                <div
+                  style={{
+                    height: "auto",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "flex-end",
+                    alignItems: "center",
+                    gap: "5px",
+                  }}
+                >
+                  <img
+                    src={user?.avatarURL}
+                    style={{
+                      width: "35px",
+                      height: "35px",
+                      borderRadius: "50%",
+                    }}
+                  />
+                  <h6
+                    style={{
+                      color: "#999",
+                      fontSize: "1rem",
+                    }}
+                  >
+                    {coffeeShop.user.username}
+                  </h6>
                 </div>
               </div>
               {/* {coffeeShop.photos.map((photo, idx) => (
