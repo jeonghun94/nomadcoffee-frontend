@@ -1,6 +1,6 @@
 import PageTitle from "../components/PateTitle";
 import Button from "../components/auth/Button";
-import { userLogout } from "../apollo";
+// import { userLogout } from "../apollo";
 import { gql, useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
 import routes from "../routes";
@@ -75,42 +75,43 @@ const CoffeeShop = styled.div`
   width: 100%;
   height: auto;
   padding: 0 20px;
-  // border: 1px solid #c8c8c8;
   display: flex;
   align-items: center;
-  gap: 40px;
+  margin-bottom: 15px;
+  // border: 1px solid #c8c8c8;
 `;
 
-const CoffeeShopImage = styled.div`
-  width: 40%;
-  height: 220px;
+const CoffeeShopImage = styled.img`
+  width: 36%;
+  height: 235px;
   border-radius: 10px;
   background-color: #bbb;
   display: flex;
+  margin-right: 30px;
 `;
 
 const CoffeeShopInfo = styled.div`
   width: 60%;
   height: 250px;
-  // border: 1px solid #c8c8c8;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  // border: 1px solid #c8c8c8;
 `;
 
 const CoffeeShopAddButton = styled.div`
+  position: absolute;
+  bottom: 80px;
+  right: 80px;
   width: 50px;
   height: 50px;
-  font-size: 36px;
+  font-size: 2rem;
   background-color: #282c34;
   border-radius: 50%;
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  right: 80px;
-  cursor: pointer;
-  bottom: 80px;
   a {
     color: white;
   }
@@ -191,12 +192,16 @@ const Home = () => {
         <div>
           <Button
             style={{ backgroundColor: "transparent" }}
-            onClick={userLogout}
+            // onClick={userLogout}
           >
-            Logout
+            <img
+              alt="avatarURL"
+              src={user?.avatarURL}
+              title={user?.username}
+              style={{ width: "35px", height: "35px", borderRadius: "50%" }}
+            />
           </Button>
           {/* 아바타 추가되어야 할곳 */}
-          <img alt="avatarURL" src={user?.avatarURL} />
         </div>
       </Header>
       <PageTitle title="Home | Nomad-Coffee" />
@@ -209,12 +214,12 @@ const Home = () => {
         ) : null}
         {data?.seeCoffeeShops.map((coffeeShop) => (
           <CoffeeShop>
-            <CoffeeShopImage />
+            <CoffeeShopImage src={coffeeShop.photos[0].url} />
             <CoffeeShopInfo>
               <div
                 style={{
                   color: "black",
-                  padding: "25px 40px",
+                  padding: "25px 10px",
                   // border: "1px solid #c8c8c8",
                   display: "flex",
                   justifyContent: "space-between",
@@ -225,6 +230,7 @@ const Home = () => {
                   <h1 style={{ fontSize: "2rem" }}>{coffeeShop.name}</h1>
                   <h3>{coffeeShop.latitude}</h3>
                   <h3>{coffeeShop.longitude}</h3>
+                  <h6>{coffeeShop.photos.url}</h6>
                 </div>
                 <div>
                   <h6>{coffeeShop.user?.name}</h6>
@@ -235,26 +241,33 @@ const Home = () => {
                   <img src={photo.url} alt={photo.url} />
                   </div>
                 ))} */}
+
               <div
                 style={{
+                  width: "100%",
                   color: "black",
-                  padding: "25px 40px",
-                  // border: "1px solid #c8c8c8",
                   display: "flex",
-                  justifyContent: "space-between",
                   alignItems: "center",
+                  // border: "1px solid red",
                 }}
               >
-                <div>
+                <div
+                  style={{
+                    width: "80%",
+                    height: "auto",
+                    display: "flex",
+                    // border: "1px solid #c8c8c8",
+                  }}
+                >
                   {coffeeShop.categories.map((category, idx) => (
                     <div
                       key={idx}
                       style={{
-                        width: "50px",
+                        width: "auto",
                         border: "2px solid #282c34",
                         borderRadius: "10px",
-                        padding: "10px 35px",
-                        margin: "10px 0",
+                        padding: "10px",
+                        margin: "10px",
                         textAlign: "center",
                         display: "flex",
                         justifyContent: "center",
@@ -266,15 +279,22 @@ const Home = () => {
                     </div>
                   ))}
                 </div>
-                <Link
-                  style={{ color: "#aaa" }}
-                  to={`${routes.shop}/${coffeeShop.id}`}
-                  key={coffeeShop.id}
+                <div
+                  style={{
+                    width: "20%",
+                    height: "auto",
+                    textAlign: "right",
+                    // border: "1px solid #c8c8c8",
+                  }}
                 >
-                  <div>
+                  <Link
+                    style={{ color: "#aaa" }}
+                    to={`${routes.shop}/${coffeeShop.id}`}
+                    key={coffeeShop.id}
+                  >
                     <h6>더 알아보기</h6>
-                  </div>
-                </Link>
+                  </Link>
+                </div>
               </div>
             </CoffeeShopInfo>
           </CoffeeShop>
