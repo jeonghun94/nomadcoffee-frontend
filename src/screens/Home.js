@@ -1,6 +1,6 @@
 import PageTitle from "../components/PateTitle";
-import Button from "../components/auth/Button";
-// import { userLogout } from "../apollo";
+// import Button from "../components/auth/Button";
+import { userLogout } from "../apollo";
 import { gql, useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
 import routes from "../routes";
@@ -130,6 +130,32 @@ const NoCoffeeShop = styled.div`
   text-align: center;
 `;
 
+const DropDownContent = styled.div`
+  display: none;
+  position: absolute;
+  min-width: 160px;
+  background-color: #f1f1f1;
+  box-shadow: 0px 8px 16p x 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+`;
+const DropDown = styled.div`
+  display: inline-block;
+  &:hover ${DropDownContent} {
+    display: block;
+  }
+`;
+
+const Menu = styled.a`
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+  & :hover {
+    background-color: white;
+  }
+`;
+
 const Home = () => {
   const { loading, error, data, refetch } = useQuery(SEE_COFFEE_SHOPS_QUERY, {
     variables: {
@@ -190,20 +216,18 @@ const Home = () => {
             </Title>
           </Link>
         </div>
-        <div>
-          <Button
-            style={{ backgroundColor: "transparent" }}
-            // onClick={userLogout}
-          >
-            <img
-              alt="avatarURL"
-              src={user?.avatarURL}
-              title={user?.username}
-              style={{ width: "35px", height: "35px", borderRadius: "50%" }}
-            />
-          </Button>
-          {/* 아바타 추가되어야 할곳 */}
-        </div>
+        <DropDown>
+          <img
+            alt="avatarURL"
+            src={user?.avatarURL}
+            title={user?.username}
+            style={{ width: "35px", height: "35px", borderRadius: "50%" }}
+          />
+          <DropDownContent>
+            <Menu onClick={() => null}>프로필 수정</Menu>
+            <Menu onClick={userLogout}>로그아웃</Menu>
+          </DropDownContent>
+        </DropDown>
       </Header>
       <PageTitle title="Home | Nomad-Coffee" />
       <CoffeeShopContainer>
@@ -244,6 +268,7 @@ const Home = () => {
                   }}
                 >
                   <img
+                    alt="avatarURL"
                     src={user?.avatarURL}
                     style={{
                       width: "35px",
