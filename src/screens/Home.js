@@ -145,7 +145,7 @@ const DropDown = styled.div`
   }
 `;
 
-const Menu = styled.a`
+const Menu = styled(Link)`
   color: black;
   padding: 12px 16px;
   text-decoration: none;
@@ -224,7 +224,7 @@ const Home = () => {
             style={{ width: "35px", height: "35px", borderRadius: "50%" }}
           />
           <DropDownContent>
-            <Menu onClick={() => null}>프로필 수정</Menu>
+            <Menu to={routes.editProfile}>프로필 수정</Menu>
             <Menu onClick={userLogout}>로그아웃</Menu>
           </DropDownContent>
         </DropDown>

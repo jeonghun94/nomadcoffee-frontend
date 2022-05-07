@@ -11,6 +11,7 @@ import routes from "./routes";
 import { HelmetProvider } from "react-helmet-async";
 import Add from "./screens/coffeeshop/Add";
 import Shop from "./screens/coffeeshop/Shop";
+import EditProfile from "./screens/EditProfile";
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -33,6 +34,9 @@ function App() {
               </Route>
               <Route path={`${routes.shop}/:id`}>
                 <Shop />
+              </Route>
+              <Route path={routes.editProfile}>
+                <EditProfile />
               </Route>
               <Route>
                 <NotFound />
