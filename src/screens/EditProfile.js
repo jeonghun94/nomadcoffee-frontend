@@ -10,9 +10,10 @@ import { gql, useMutation } from "@apollo/client";
 import { useHistory } from "react-router-dom";
 
 const EDIT_PROFILE_MUTATION = gql`
-  mutation ($avatarURL: Upload, $name: String) {
-    editProfile(avatarURL: $avatarURL, name: $name) {
+  mutation editProfile($avatarURL: Upload) {
+    editProfile(avatarURL: $avatarURL) {
       ok
+      error
     }
   }
 `;
@@ -28,15 +29,12 @@ const EditProfile = () => {
         message: error,
       });
     }
-    console.log(ok, error);
-    // const { username, password } = getValues();
-
-    // history.push(routes.home, {
-    //   username,
-    //   password,
-    //   message: "Account created",
-    // });
+    alert("수정되었습니다.");
+    history.push(routes.home, {
+      message: "Profile updated",
+    });
   };
+
   const [editProfile, { loading }] = useMutation(EDIT_PROFILE_MUTATION, {
     onCompleted,
   });
@@ -44,24 +42,14 @@ const EditProfile = () => {
   const {
     register,
     handleSubmit,
-    clearErrors,
     setError,
     formState: { errors },
-    getValues,
   } = useForm({ mode: "onChange" });
 
   const onSubmitValid = (data) => {
-    if (loading) {
-      return;
-    }
-
-    console.log(data.avatarURL[0], "data");
-
     editProfile({
       variables: {
-        // name: "dsd",
-        // avatarURL: data.avatarURL[0],
-        ...data,
+        avatarURL: data.avatarURL[0],
       },
     });
   };
@@ -70,7 +58,7 @@ const EditProfile = () => {
     <Layout>
       <PageTitle title="Edit-Profile | Nomad-Coffee" />
       <Form onSubmit={handleSubmit(onSubmitValid)}>
-        <Title title="Edit-Profile" subTitle="Nomad-Coffee" />
+        <Title title="Edit-Profile(Image)" subTitle="Nomad-Coffee" />
         <Input
           {...register("avatarURL", {
             required: {
@@ -79,7 +67,7 @@ const EditProfile = () => {
             },
           })}
           type="file"
-          placeholder="File"
+          accept="image/*"
         />
         {errors.avatarURL?.message}
         <Button type="submit" value={loading ? "Loading..." : "Sign up"}>

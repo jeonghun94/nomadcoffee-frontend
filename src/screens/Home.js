@@ -167,6 +167,7 @@ const Home = () => {
     loading: userLoading,
     // error: userError,
     data: userData,
+    refetch: userRefetch,
   } = useQuery(SEE_PROFILE_QUERY, {
     variables: {
       token: localStorage.getItem("token"),
@@ -181,6 +182,7 @@ const Home = () => {
   }, [userData, userLoading]);
 
   useEffect(() => {
+    userRefetch();
     refetch();
   }, [refetch]);
 
