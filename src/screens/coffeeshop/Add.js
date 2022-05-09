@@ -14,7 +14,7 @@ const CREATE_COFFEE_SHOP_MUTATION = gql`
     $name: String!
     $latitude: String!
     $longitude: String!
-    $photoUrls: [String]!
+    $photoUrls: Upload
     $categories: [String]!
   ) {
     createCoffeeshop(
@@ -43,13 +43,20 @@ const Add = () => {
   const [createCoffeeshop, { loading, error, data }] = useMutation(
     CREATE_COFFEE_SHOP_MUTATION
   );
+
   console.log(loading, error, data);
 
   const history = useHistory();
   const onSubmitValid = (data) => {
+    const { name, latitude, longitude, photoUrls, categories } = data;
+    console.log(name, latitude, longitude, photoUrls, categories);
     createCoffeeshop({
       variables: {
-        ...data,
+        name,
+        latitude,
+        longitude,
+        photoUrls: photoUrls[0],
+        categories,
       },
     });
     alert("New Coffee shop created!");
@@ -95,8 +102,8 @@ const Add = () => {
               message: "photoUrls is required",
             },
           })}
-          type="text"
-          placeholder="photoUrls"
+          type="file"
+          accept="image/*"
         />
         {errors.photos?.message}
         <Input

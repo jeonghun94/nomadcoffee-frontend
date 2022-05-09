@@ -19,9 +19,7 @@ const SEE_COFFEE_SHOPS_QUERY = gql`
         name
         username
       }
-      photos {
-        url
-      }
+      photos
       categories {
         name
       }
@@ -235,13 +233,13 @@ const Home = () => {
       <CoffeeShopContainer>
         {data?.seeCoffeeShops.length === 0 ? (
           <NoCoffeeShop>
-            <h1>There is no registered cafe information.</h1>
-            <h2>Please register by clicking the button below!</h2>
+            <h1>등록된 커피샵이 없습니다.</h1>
+            <h2>아래 버튼을 눌러 등록 해주세요!</h2>
           </NoCoffeeShop>
         ) : null}
         {data?.seeCoffeeShops.map((coffeeShop) => (
           <CoffeeShop>
-            <CoffeeShopImage src={coffeeShop.photos[0].url} />
+            <CoffeeShopImage src={coffeeShop.photos} />
             <CoffeeShopInfo>
               <div
                 style={{
